@@ -1,0 +1,352 @@
+/* VARIABLES DE TEMA */
+:root {
+    --color-fondo: #f2f3f5;
+    --color-header: #7289DA;
+    --color-header-texto: white;
+    --color-sidebar: #f8f9fa;
+    --color-sidebar-border: #d3d6da;
+    --color-editor-fondo: white;
+    --color-boton: #7289DA;
+    --color-boton-hover: #5b6eae;
+    --color-texto: #333;
+    --color-hover-item: #e2e6ea;
+    --color-tooltip-fondo: white;
+    --color-tooltip-border: #ccc;
+  }
+  .discord-dark {
+    --color-fondo: #36393F;
+    --color-header: #202225;
+    --color-header-texto: #DCDDDE;
+    --color-sidebar: #2F3136;
+    --color-sidebar-border: #202225;
+    --color-editor-fondo: #2F3136;
+    --color-boton: #7289DA;
+    --color-boton-hover: #5b6eae;
+    --color-texto: #DCDDDE;
+    --color-hover-item: #4f545c;
+    --color-tooltip-fondo: #202225;
+    --color-tooltip-border: #7289DA;
+  }
+  
+  /* ESTILOS GENERALES */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  header {
+    background: var(--color-header);
+    color: var(--color-header-texto);
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    position: relative;
+  }
+  .header-title { display: inline-block; }
+  #configBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--color-header-texto);
+  }
+  #container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  #sidebar {
+    width: 250px;
+    background: var(--color-sidebar);
+    border-right: 1px solid var(--color-sidebar-border);
+    padding: 10px;
+    overflow-y: auto;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  #sidebar h3 { margin-top: 0; text-align: center; }
+  .category-group { margin-bottom: 15px; }
+  .category-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--color-sidebar-border);
+    padding-bottom: 3px;
+  }
+  .note-item {
+    background: var(--color-editor-fondo);
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid var(--color-sidebar-border);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  .note-item:hover { background: var(--color-hover-item); }
+  .note-info { flex-grow: 1; }
+  .delete-note {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 1.1em;
+  }
+  #editorContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    overflow-y: auto;
+    position: relative;
+  }
+  #noteMetadata {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  #noteTitle, #noteCategory {
+    padding: 8px;
+    font-size: 1em;
+  }
+  #noteTitle { flex: 2; }
+  #noteCategory { flex: 1; }
+  #manageCategories {
+    padding: 8px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  #editor-toolbar {
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    background: var(--color-editor-fondo);
+  }
+  #editor {
+    flex: 1;
+    background: var(--color-editor-fondo);
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    padding: 15px;
+    transition: background 0.3s;
+  }
+  .actions {
+    margin-top: 10px;
+    text-align: right;
+  }
+  .actions button {
+    padding: 10px 15px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 4px;
+    background: var(--color-boton);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .actions button:hover { background: var(--color-boton-hover); }
+  .definition {
+    background-color: #d1ecf1;
+    border-bottom: 1px dashed #0c5460;
+    cursor: pointer;
+  }
+  #tooltip {
+    position: absolute;
+    background: var(--color-tooltip-fondo);
+    border: 1px solid var(--color-tooltip-border);
+    padding: 10px;
+    display: none;
+    z-index: 100;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    max-width: 300px;
+  }
+  /* Modal de Configuración */
+  #configModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+  }
+  #configModalContent {
+    background: var(--color-editor-fondo);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%;
+    position: relative;
+    text-align: center;
+  }
+  #closeConfigModal {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    border: none;
+    background: transparent;
+    color: var(--color-texto);
+  }
+  #configModalContent h3 { margin-top: 0; }
+  #configModalContent section { margin: 15px 0; }
+  #configModalContent button.option {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  #dbForm input {
+    display: block;
+    margin: 5px auto;
+    padding: 8px;
+    width: 80%;
+  }
+  #dbForm button {
+    padding: 8px 12px;
+    margin-top: 10px;
+    background: var(--color-boton);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+  #sessionStatus {
+    margin-top: 10px;
+    font-size: 1.2em;
+  }
+  #backupModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 310;
+  }
+  #backupModalContent {
+    background: var(--color-editor-fondo);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%;
+    text-align: center;
+  }
+  #catModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+  #catModalContent {
+    background: var(--color-editor-fondo);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+  }
+  .cat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid var(--color-sidebar-border);
+  }
+  .delete-cat {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 1em;
+  }
+  /* Inline Toolbar */
+  #inlineToolbar {
+    position: absolute;
+    background: var(--color-editor-fondo);
+    border: 1px solid var(--color-sidebar-border);
+    border-radius: 4px;
+    padding: 5px;
+    display: none;
+    z-index: 150;
+  }
+  #inlineToolbar button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0 2px;
+    color: var(--color-texto);
+  }
+  /* Responsividad */
+  @media screen and (max-width: 600px) {
+    #container { flex-direction: column; }
+    #sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--color-sidebar-border);
+    }
+  }
+  footer {
+    text-align: center;
+    padding: 5px;
+    font-size: 0.8em;
+    background: var(--color-sidebar);
+    border-top: 1px solid var(--color-sidebar-border);
+  }
+  
+  .sidebar-button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: var(--color-boton);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .sidebar-button:hover {
+    background-color: var(--color-boton-hover);
+  }
+  
+  .version {
+    background-color: #28a745;
+    color: white;
+    font-size: 0.6em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+  

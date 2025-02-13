@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BetterNotes</title>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-title">
+      BetterNotes <span class="version">v1.0</span>
+      <span id="autosaveIndicator" title="Auto-guardado" style="display:none;">✅</span>
+    </div>    
+    <!-- Botón de Configuración -->
+    <button id="configBtn" onclick="openConfigModal()">⚙️</button>
+  </header>
+
+  <div id="container">
+    <div id="sidebar">
+      <h3>Mis Notas</h3>
+      <button class="sidebar-button" onclick="newNote()">Nueva Nota</button>
+      <div id="notesList"></div>
+    </div>
+    <div id="editorContainer">
+      <div id="noteMetadata">
+        <input type="text" id="noteTitle" placeholder="Título de la nota">
+        <select id="noteCategory"></select>
+        <button id="manageCategories" onclick="openCatModal()">Gestionar Categorías</button>
+      </div>
+      <!-- Toolbar superior de Quill con opciones ampliadas -->
+      <div id="editor-toolbar"></div>
+      <!-- Editor (spellcheck desactivado) -->
+      <div id="editor" spellcheck="false"></div>
+      <div class="actions">
+        <button onclick="saveCurrentNote()">Guardar Nota</button>
+      </div>
+      <div id="tooltip"></div>
+      <!-- Inline toolbar para edición rápida -->
+      <div id="inlineToolbar">
+        <button onclick="applyInlineFormat('bold')"><strong>B</strong></button>
+        <button onclick="applyInlineFormat('italic')"><em>I</em></button>
+        <button onclick="applyInlineFormat('underline')"><u>U</u></button>
+        <button onclick="addDefinition()"><span style="font-weight:normal;">D</span></button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Powered by <a href="https://github.com/Moztank" target="_blank">Moztank</a></p>
+  </footer>
+
+  <!-- Modal de Configuración Unificado -->
+  <div id="configModal">
+    <div id="configModalContent">
+      <button id="closeConfigModal" onclick="closeConfigModal()">✖️</button>
+      <h3>Configuración</h3>
+      <!-- Sección de Tema -->
+      <section id="themeSection">
+        <h4>Tema</h4>
+        <button class="option" onclick="setTheme('light')">☀️ Claro</button>
+        <button class="option" onclick="setTheme('discord')">🌙 Oscuro</button>
+      </section>
+      <!-- Sección de Base de Datos -->
+      <section id="dbSection">
+        <h4>Base de Datos</h4>
+        <div id="dbForm">
+          <input type="text" id="dbHost" placeholder="Host/IP">
+          <input type="text" id="dbUser" placeholder="Usuario">
+          <input type="password" id="dbPass" placeholder="Contraseña">
+          <input type="text" id="dbName" placeholder="Nombre de la BD">
+          <button onclick="saveDBConfig()">Guardar Configuración BD</button>
+        </div>
+        <div id="sessionStatus">
+          Sesión: <span id="sessionIndicator">❌</span>
+        </div>
+      </section>
+      <!-- Sección de Backup -->
+      <section id="backupSection">
+        <h4>Backup</h4>
+        <button class="option" onclick="downloadBackup()">Descargar Backup</button>
+        <input type="file" id="backupFile" accept=".json">
+        <button class="option" onclick="importBackup()">Importar Backup</button>
+      </section>
+      <!-- Sección de Logout (solo si la conexión es exitosa) -->
+      <section id="logoutSection" style="display:none;">
+        <h4>Sesión</h4>
+        <button class="option" onclick="logout()">Cerrar Sesión</button>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal para gestionar Categorías -->
+  <div id="catModal">
+    <div id="catModalContent">
+      <h3>Gestionar Categorías Personalizadas</h3>
+      <div id="catList"></div>
+      <button onclick="closeCatModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
